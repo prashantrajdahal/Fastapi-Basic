@@ -1,5 +1,6 @@
 """SQLAlchemy model for the 'items' table."""
-from sqlalchemy import Column, Integer, String , Float, DateTime, func
+from sqlalchemy import Column, ForeignKey, Integer, String , Float, DateTime, func
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 class Item(Base):
@@ -10,6 +11,12 @@ class Item(Base):
     description= Column(String(length=255), nullable=True)
     price= Column(Float, nullable=False, default=0.0)
     created_at= Column(DateTime(timezone=True), server_default=func.now())
+    
+    # Foreign key to Category
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True, index=True)
+
+    # Relationship back to Category
+    category = relationship("Category", back_populates="items")
     
     def __repr__(self):
         return f"<Item {self.name}>"
