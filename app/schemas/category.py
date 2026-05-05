@@ -1,5 +1,5 @@
 """Pydantic schemas for categories."""
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -17,6 +17,4 @@ class CategoryUpdate(BaseModel):
 class Category(CategoryBase):
     id: int
     created_at: datetime
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
